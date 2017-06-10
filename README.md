@@ -1,9 +1,9 @@
 # AutoDJ
 ### written in python3
 
-You need icecast, ffmpeg and libopus-dev
+You need icecast, libmp3lame-dev libshout-dev and libopus-dev
 
-in opusdec and opusenc you must do
+in lameshouter opusdec and opusenc you must do
 ```
 python3 setup.py build
 sudo python3 setup.py install
