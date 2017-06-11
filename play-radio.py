@@ -30,10 +30,13 @@ while True:
 		random.shuffle(songs_list)
 
 	if len(news_list) >= 1:
-		filename = "news/" + news_list.pop(0)
+		txt = news_list.pop(0)
+		filename = "news/" + txt
+		lameshouter.setmeta("News :: " + txt)
 	else:
-		filename = "songs/" + songs_list.pop(0)
-	print(filename)
+		txt = songs_list.pop(0)
+		filename = "songs/" + txt
+		lameshouter.setmeta(txt)
 
 	f = open(filename, "rb")
 	e = zlib.decompressobj()

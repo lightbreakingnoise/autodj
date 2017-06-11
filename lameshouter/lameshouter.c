@@ -55,9 +55,27 @@ PyObject *shouter(PyObject *self, PyObject *args) {
 	return result;
 }
 
+PyObject *setmeta(PyObject *self, PyObject *args) {
+	const char *dta;
+
+	if( !PyArg_ParseTuple(args, "s", &dta) )
+		return NULL;
+	
+	shout_metadata_t *m;
+	m = shout_metadata_new();
+	shout_metadata_add(m, "song", dta);
+	shout_set_metadata(shout, m);
+	shout_metadata_free(m);
+	
+	PyObject *result;
+	result = Py_BuildValue("");
+	return result;
+}
+
 static PyMethodDef module_methods[] = {
 	{ "init", init, METH_NOARGS, NULL },
 	{ "shouter", shouter, METH_VARARGS, NULL },
+	{ "setmeta", setmeta, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 
