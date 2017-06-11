@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alexander Markard's Music Maker</title>
+	
+	<meta charset="utf-8">
+	<meta name="author" content="Alexander Markard">
+	
+	<style type="text/css">
+		html, body { margin: 0px; padding: 0px; background-color: #222; color: #bbb; text-align: center; }
+		h1 { display: block; background-color: #222; }
+		.coin { color: inherit; }
+		.mainform { display: inline-block; background-color: #333; color: #ccc; text-align: center; margin-top: 256px; padding: 32px; border: 1px solid #ddd; }
+		.passwd { display: inline-block; background-color: #bbb; color: #222; padding: 8px; text-align: center; }
+	</style>
+</head>
+
+<body>
+	<form method="POST" action="/start" class="mainform">
+		Enter Password:<br>
+		<input type="password" name="pass" class="passwd"><br>
+		<input type="submit" value="enter">
+	</form>
+</body>
+</html>
