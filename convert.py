@@ -17,7 +17,7 @@ b = ""
 
 opusenc.initialize(256000)
 
-wf = wave.open("temp.wav")
+wf = wave.open(tmp)
 while True:
 	rc = wf.readframes(480)
 	if len(rc) != 1920:
