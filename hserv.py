@@ -12,8 +12,12 @@ if len(sys.argv) != 2:
 
 class WebServer(BaseHTTPRequestHandler):
 	def do_GET(self):
-		self.html_out("startseite.html")
-
+		if self.path == "/":
+			self.html_out("startseite.html")
+		
+		elif self.path == "/background":
+			self.jpeg_out("musik.jpg")
+	
 	def do_POST(self):
 		if self.path == "/start":
 			form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={"REQUEST_METHOD": "POST", "CONTENT_TYPE": self.headers["Content-Type"]})
@@ -58,6 +62,17 @@ class WebServer(BaseHTTPRequestHandler):
 			else:
 				self.html_out("startseite.html")
 
+	def jpeg_out(self, filename):
+		self.send_response(200)
+		self.send_header("Content-type", "image/jpeg")
+		self.end_headers()
+		
+		f = open(filename, "rb")
+		out = f.read()
+		f.close()
+		
+		self.wfile.write(out)
+
 	def html_out(self, filename):
 		self.send_response(200)
 		self.send_header("Content-type", "text/html")
@@ -82,13 +97,13 @@ class WebServer(BaseHTTPRequestHandler):
 		ltime = time.localtime()
 		nowtime = ("%2.2d" % ltime[3]) + ":" + ("%2.2d" % ltime[4])
 		
-		lshtml = ""
+		lshtml = "<div class=\"lscroller\"><form class=\"afile\" method=\"POST\" action=\"/upsong\" enctype=\"multipart/form-data\"> Titel: <input type=\"text\" name=\"title\" class=\"passwd\"> <input type=\"file\" name=\"file\" accept=\"audio/*\"> Passwort: <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"hochladen\"></form><br><br>"
 		for fn in os.listdir("songs/"):
 			lshtml += "<form class=\"afile\" method=\"POST\" action=\"/deletesong\">" + fn + "<input type=\"hidden\" name=\"delete\" value=\"" + fn + "\"> <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"delete\"></form><br>"
-		lshtml += "<form class=\"afile\" method=\"POST\" action=\"/upsong\" enctype=\"multipart/form-data\"> Titel: <input type=\"text\" name=\"title\" class=\"passwd\"> <input type=\"file\" name=\"file\" accept=\"audio/*\"> Passwort: <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"hochladen\"></form><br><br><br>"
+		lshtml += "<br></div><div class=\"rscroller\"><form class=\"anews\" method=\"POST\" action=\"/upnews\" enctype=\"multipart/form-data\"> Titel: <input type=\"text\" name=\"title\" class=\"passwd\"> <input type=\"file\" name=\"file\" accept=\"audio/*\"> Passwort: <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"hochladen\"></form><br><br>"
 		for fn in os.listdir("news/"):
 			lshtml += "<form class=\"anews\" method=\"POST\" action=\"/deletenews\">" + fn + "<input type=\"hidden\" name=\"delete\" value=\"" + fn + "\"> <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"delete\"></form><br>"
-		lshtml += "<form class=\"anews\" method=\"POST\" action=\"/upnews\" enctype=\"multipart/form-data\"> Titel: <input type=\"text\" name=\"title\" class=\"passwd\"> <input type=\"file\" name=\"file\" accept=\"audio/*\"> Passwort: <input type=\"password\" name=\"pass\" class=\"passwd\"> <input type=\"submit\" value=\"hochladen\"></form><br><br><br>"
+		lshtml += "<br></div>"
 		
 		f = open(filename)
 		out = f.read()

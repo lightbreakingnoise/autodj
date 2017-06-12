@@ -7,17 +7,37 @@
 	<meta name="author" content="Alexander Markard">
 	
 	<style type="text/css">
-		html, body { margin: 0px; padding: 0px; background-color: #222; color: #bbb; text-align: center; }
+		html, body { margin: 0px; padding: 0px; height: 100%; background-image: url('/background'); background-size: 100% 100%; color: #bbb; text-align: center; overflow: hidden; }
 		h1 { display: block; background-color: #222; }
 		.coin { color: inherit; }
 		.mainform { display: inline-block; background-color: #333; color: #ccc; text-align: center; margin-top: 256px; padding: 32px; border: 1px solid #ddd; }
-		.passwd { display: inline-block; background-color: #bbb; color: #222; padding: 8px; text-align: center; }
-		.afile { display: inline-block; background-color: #932; color: #f65; padding: 8px; text-align: right; width: 95vw; margin-top: 2px; }
-		.anews { display: inline-block; background-color: #392; color: #9f7; padding: 8px; text-align: right; width: 95vw; margin-top: 2px; }
+		.passwd { display: inline-block; background-color: #444; color: #ddd; padding: 2px; border: 1px solid #ac9; text-align: center; }
+		.afile { display: inline-block; background-color: rgba(50, 50, 50, 0.8); color: #ddd; padding: 8px; text-align: right; width: 95%; margin-top: 2px; border: 1px solid black; }
+		.anews { display: inline-block; background-color: rgba(50, 50, 50, 0.8); color: #ddd; padding: 8px; text-align: right; width: 95%; margin-top: 2px; border: 1px solid black; }
+		.lscroller { display: inline-block; position: absolute; top: 48px; left: 0px; right: 50%; bottom: 0px; margin: 0px; padding: 0px; overlow-x: hidden; overflow-y: scroll; }
+		.rscroller { display: inline-block; position: absolute; top: 48px; left: 50%; right: 0px; bottom: 0px; margin: 0px; padding: 0px; overlow-x: hidden; overflow-y: scroll; }
+		.topbar { display: inline-block; position: absolute; top: 0px; left: 0px; right: 0px; height: 48px; background-color: rgba(50, 50, 50, 0.8); color: #ddd; line-height: 48px; vertical-align: middle; }
 	</style>
+	
+	<script type="text/javascript">
+		var ajax = new XMLHttpRequest();
+		
+		function update() {
+			ajax.open("GET", "https://radio.amcoder.de/status-json.xsl", true);
+			ajax.onreadystatechange = function() {
+				if( ajax.readyState == 4 ) {
+					var xml = JSON.parse(ajax.responseText);
+					document.getElementById("listeners").innerHTML = xml["icestats"]["source"][1]["listeners"] + " listeners";
+					setTimeout(function(){ update(); }, 5000);
+				}
+			}
+			ajax.send();
+		}
+	</script>
 </head>
 
-<body>
+<body onload="update();">
+	<div class="topbar"><TIME> &bull; <a href="/" class="coin">Logout</a> &bull; <span id="listeners"></span></div>
 	<FILES>
 </body>
 </html>
