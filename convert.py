@@ -7,7 +7,8 @@ import base64
 import zlib
 import sys
 
-subprocess.Popen(["ffmpeg", "-i", sys.argv[1], "-ar", "48000", "-ac", "2", "-y", "temp.wav"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
+tmp = sys.argv[1] + ".wav"
+subprocess.Popen(["ffmpeg", "-i", sys.argv[1], "-ar", "48000", "-ac", "2", "-y", tmp], stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
 
 f = open(sys.argv[2], "wb")
 e = zlib.compressobj(9)
@@ -33,3 +34,4 @@ while True:
 f.write(e.compress(b.encode()) + e.flush(zlib.Z_SYNC_FLUSH))
 f.close()
 wf.close()
+os.remove(tmp)
